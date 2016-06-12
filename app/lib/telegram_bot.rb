@@ -1,7 +1,7 @@
 class TelegramBot
   def initialize(token)
     @token = token
-    Telegram::Bot::Client.new(token, logger: Rails.logger)
+    @client = Telegram::Bot::Client.new(token, logger: Rails.logger)
   end
 
   def process_message(raw_update)
@@ -16,9 +16,11 @@ class TelegramBot
 
     case message.text
     when /\A\/help\z/
-      client.api.send_message(chat_id: chat_id, text: "I can only /protect_chat from spoilers")
+      @client.api.send_message(chat_id: chat_id, text: "I can only /protect_chat from spoilers")
     when /\A\/protect_chat\z/
-      client.api.send_message(chat_id: chat_id, text: "Chat #{message.chat.title} registered. On next GoT episode I'll kick everyone from this chat... Muahahahahah")
+      ChatRoom.find_or_create_by(telegram_id: chat_id)
+
+      @client.api.send_message(chat_id: chat_id, text: "Chat #{message.chat.title} registered. On next GoT episode I'll kick everyone from this chat... Muahahahahah")
     end
     Hash.new
   end
