@@ -15,18 +15,18 @@ class TelegramBot
     Rails.logger.info "Chat from: #{chat_id}, message: #{message.inspect}"
 
     case message.text
-    when /\A\/help\z/
+    when /\A\/help(\@gotss_bot)?\z/
       send_message(chat_id, "I can only /protect_chat from spoilers.\nSave the /come_back_link <url>\nAnd after the chat is protected, users can try to ask me this: /protect_me")
-    when /\A\/protect_chat\z/
+    when /\A\/protect_chat(\@gotss_bot)?\z/
       ChatRoom.find_or_create_by(telegram_id: chat_id)
 
       send_message(chat_id, "Chat #{message.chat.title} registered. On next GoT episode I'll kick everyone from this chat... Muahahahahah")
-    when /\A\/come_back_link\s/
+    when /\A\/come_back_link(\@gotss_bot)?\s/
       chat_room = ChatRoom.find_or_create_by(telegram_id: chat_id)
       url = message.text.gsub(/\/come_back_link\s/, '')
       chat_room.update(come_back_link: url)
       send_message(chat_id, "Chat #{message.chat.title} come back link is now set to #{url}")
-    when /\A\/protect_me\z/
+    when /\A\/protect_me(\@gotss_bot)?\z/
       chat_room_id = ChatRoom.find_or_create_by(telegram_id: chat_id).id
       User.find_or_create_by(chat_room_id: chat_room_id, telegram_id: user_id)
       send_message(chat_id, "I'll try #{message.from.first_name}... But make sure you have a private chat with me (@gotss_bot) so that I send you the come back link when I kick your butt ")
