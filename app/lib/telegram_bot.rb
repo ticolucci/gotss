@@ -9,12 +9,12 @@ class TelegramBot
 
     update_id = update.update_id
     message = update.message
-    user_id = message.from.id
-    chat_id = message.chat.id
+    user_id = message&.from&.id
+    chat_id = message&.chat&.id
 
     Rails.logger.info "Chat from: #{chat_id}, message: #{message.inspect}"
 
-    case message.text
+    case message&.text
     when /\A\/help(\@gotss_bot)?\z/
       send_message(chat_id, "I can only /protect_chat from spoilers.\nSave the /come_back_link <url>\nAnd after the chat is protected, users can try to ask me this: /protect_me")
     when /\A\/protect_chat(\@gotss_bot)?\z/
