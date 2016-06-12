@@ -3,15 +3,15 @@ class BotController < ApplicationController
 
   def index
     response = TelegramBot.new(BOT_TOKEN).process_message(params)
-    render json: { done: :ok }.merge(response)
+    render json: { done: :ok }
   end
 
   def kick_all
     chat_room = ChatRoom.first
     TelegramBot.new(BOT_TOKEN).kick_all(
-      chat_room&.telegram_id,
-      Array(chat_room&.users).map(&:telegram_id),
-      chat_room&.come_back_link
+      chat_room.telegram_id,
+      chat_room.users,
+      chat_room.come_back_link
     )
     render json: {done: :ok}
   end
