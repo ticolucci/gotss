@@ -16,5 +16,6 @@ Bundler.require(*Rails.groups)
 module Gotss
   class Application < Rails::Application
     config.api_only = true
+    config.autoload_paths << Rails.root.join('app', 'lib')
   end
 end
