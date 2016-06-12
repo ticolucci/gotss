@@ -30,7 +30,7 @@ class TelegramBot
       chat_room_id = ChatRoom.find_or_create_by(telegram_id: chat_id).id
       User.find_or_create_by(chat_room_id: chat_room_id, telegram_id: user_id)
       send_message(chat_id, "I'll try #{message.from.first_name}... But make sure you have a private chat with me (@gotss_bot) so that I send you the come back link when I kick your butt ")
-    else
+    when /\A\//
       send_message(chat_id, "Can't you read #{message.from.first_name}? I only know how to answer to things described by /help... You will probably be spoiled... BY ME!!! Muahahahahahahah")
       sleep(2)
       send_message(chat_id, "JK :* #{message.from.first_name}")
