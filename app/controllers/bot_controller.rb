@@ -19,8 +19,8 @@ class BotController < ApplicationController
   private
 
   def log_error_if_so
-    unless params.dig('ok')
-      Rails.logger.error "[Error] #{params['error_code']}: #{params['description']}"
+    if !params.dig('ok').nil? && params.dig('ok') == false
+      Rails.logger.error "#{params['error_code']}: #{params['description']}"
       render json: { error: :sorry }
     end
   end
