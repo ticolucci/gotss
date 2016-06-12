@@ -17,6 +17,8 @@ class TelegramBot
     case message&.text
     when /\A\/help(\@gotss_bot)?\z/
       send_message(chat_id, "I can only /protect_chat from spoilers.\nSave the /come_back_link <url>\nAnd after the chat is protected, users can try to ask me this: /protect_me")
+    when /\A\/start(\@gotss_bot)?\z/
+      send_message(chat_id, "Yo! Now that we have a chat, I can post messages directly to you ;-)")
     when /\A\/protect_chat(\@gotss_bot)?\z/
       ChatRoom.find_or_create_by(telegram_id: chat_id)
 
