@@ -54,9 +54,14 @@ class TelegramBot
   def kick_all(chat_id, users, come_back_link)
     users.each do |user|
       user_id = user.telegram_id
-      kick_user(chat_id, user_id)
-      unban_user(chat_id, user_id)
-      send_message(user_id, "I'm kicking you so you don't receive spam =)\nCome back later!\n #{come_back_link}")
+      begin
+        kick_user(chat_id, user_id)
+        unban_user(chat_id, user_id)
+        send_message(user_id, "I'm kicking you so you don't receive spam =)\nCome back later!\n #{come_back_link}")
+      rescue Telegram::Bot::Exceptions::ResponseError => e
+        Rails.logger.error "Failed to kick user: #{user_id}"
+        Rails.logger.error e
+      end
     end
   end
 end
