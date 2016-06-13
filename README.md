@@ -1,7 +1,7 @@
 # GoTSS - Game of Thrones Safe Spoilers bot
 
 ```
-Super hacky vommitted solution =P
+Super hacky vomited solution =P
 
 But it's working...
 ```
